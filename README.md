@@ -72,4 +72,4 @@ JSON Hook Transmitter 是一個用於接收、轉換並轉發 webhook payload �
 歡迎貢獻！你可以提交 issue 或 pull request。
 
 ## 授權
-本專案採用 MIT 許可證，詳情請參閱 [LICENSE](LICENSE) 文件。
+本專案授權採用 Apache License Version 2.0，詳情請參閱 [LICENSE](LICENSE) 文件。
