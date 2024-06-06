@@ -7,8 +7,8 @@ import importlib
 
 app = Flask(__name__)
 
-WEBHOOK_PROXY_DEBUG=False
-WEBHOOK_PROXY_DEBUG_JSON_DUMPS=False
+WEBHOOK_PROXY_DEBUG="false"
+WEBHOOK_PROXY_DEBUG_JSON_DUMPS="false"
 WEBHOOK_PROXY_DEBUG_INDENT=2
 WEBHOOK_PROXY_TRANSFORMER="UNDEFINE"
 REWRITE_ENDPOINT="http://localhost:5000/transformed"
@@ -16,9 +16,9 @@ REWRITE_ENDPOINT="http://localhost:5000/transformed"
 @app.route('/webhook', methods=['POST'])
 def webhook():
     raw = request.json
-    debugPrint("recevied: " + debugJsonDumps(raw))
+    debugPrint("recevied:" + debugJsonDumps(raw))
     
-    transformed = transform(request.json)
+    transformed = transform(raw)
     debugPrint("transformed: " + debugJsonDumps(transformed))
 
     response = transferWith(transformed)
@@ -45,14 +45,15 @@ def info():
     }), 200
 
 def debugJsonDumps(raw):
-    if os.getenv('WEBHOOK_PROXY_DEBUG_JSON_DUMPS', False):
-        return "\n" + json.dumps(raw, indent=int(os.getenv('WEBHOOK_PROXY_DEBUG_INDENT', WEBHOOK_PROXY_DEBUG_INDENT)))
+    if os.getenv('WEBHOOK_PROXY_DEBUG_JSON_DUMPS', WEBHOOK_PROXY_DEBUG_JSON_DUMPS) == "true":
+        return json.dumps(raw, indent=WEBHOOK_PROXY_DEBUG_INDENT, ensure_ascii=False)
     return str(flatten(raw))
 
 def debugPrint(msg):
-    if os.getenv('WEBHOOK_PROXY_DEBUG', False):
+    if os.getenv('WEBHOOK_PROXY_DEBUG', WEBHOOK_PROXY_DEBUG) == "true":
         print(msg)
-    return
+    else:
+        return
 
 def transform(raw):
     transformerModule=os.getenv('WEBHOOK_PROXY_TRANSFORMER', WEBHOOK_PROXY_TRANSFORMER)
