@@ -1,0 +1,14 @@
+  To access your JSON Hook Transmitter application, follow steps:
+  - Hook the endpoint to your application:
+{{- if .Values.ingress.enabled }}
+{{- range $host := .Values.ingress.hosts }}
+    http{{ if $.Values.ingress.tls }}s{{ end }}/webhook
+{{- end }}
+{{- else if contains "NodePort" .Values.service.type }}
+    http://$NODE_IP:$NODE_PORT/webhook
+{{- else if contains "LoadBalancer" .Values.service.type }}
+    http://$SERVICE_IP:{{ .Values.service.port }}/webhook
+{{- else if contains "ClusterIP" .Values.service.type }}
+    http://{{ include "json-hook-transmitter.fullname" . }}:{{ .Values.service.port }}/webhook
+{{- end }}
+Enjoy your application!

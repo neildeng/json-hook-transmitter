@@ -1,0 +1,15 @@
+{{- if .Values.transformer.create -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "json-hook-transmitter.configMapName" . }}
+  labels:
+    {{- include "json-hook-transmitter.labels" . | nindent 4 }}
+  {{- with .Values.transformer.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+data:
+  transformer.py: |
+{{ .Values.transformer.script | indent 4 }}
+{{- end }}

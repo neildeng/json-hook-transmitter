@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "json-hook-transmitter.fullname" . }}-test-connection"
+  labels:
+    {{- include "json-hook-transmitter.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args: ['{{ include "json-hook-transmitter.fullname" . }}:{{ .Values.service.port }}']
+  restartPolicy: Never
