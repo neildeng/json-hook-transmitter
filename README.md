@@ -10,7 +10,7 @@ JSON Hook Transmitter 是一個用於接收、轉換並轉發 webhook payload �
 ## 安裝
 1. clone 此倉庫：
     ```bash
-    git clone https://github.com/your-username/json-hook-transmitter.git
+    git clone https://github.com/neildeng/json-hook-transmitter.git
     cd json-hook-transmitter
     ```
 
